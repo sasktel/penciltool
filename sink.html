@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SaskTel Canvas Drawing Example</title>
+    <title>SaskTel PencilTool Example</title>
 </head>
 <body>
     
@@ -11,9 +11,11 @@
     <script src="jquery.penciltool.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-        
-        $('#pencil-tool').pencilTool();
-        
+        var pencilToolSettings = {
+            'canvasWidth': '300px',
+            'canvasHeight': '300px'
+        };
+        $('#pencil-tool').pencilTool(pencilToolSettings);
     });
     </script>
 </body>

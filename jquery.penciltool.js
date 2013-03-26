@@ -11,8 +11,9 @@
 (function ($) {
 
     var settings = $.extend({
-        'lineWidth': 4,
-        'strokeStyle': '#F00',
+        'pencilButtonText': 'Tap to sign',
+        'lineWidth': 2,
+        'strokeStyle': '#000',
         'canvasWidth': '700px',
         'canvasHeight': '300px',
         'toolbarTitle': ''
@@ -26,7 +27,7 @@
             }
             if (button === null) {
                 // create button
-                button = $('<button id="pencil-tool-button">Pencil Tool</button>');
+                button = $('<button id="pencil-tool-button">' + settings.pencilButtonText + '</button>');
                 // create click handler
                 button.click(function (event) {
                     $.fn.pencilTool('showPencilTool');

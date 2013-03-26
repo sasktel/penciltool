@@ -14,7 +14,8 @@
         'lineWidth': 4,
         'strokeStyle': '#F00',
         'canvasWidth': '700px',
-        'canvasHeight': '300px'
+        'canvasHeight': '300px',
+        'toolbarTitle': ''
     }), started = false, initialized = false, canvasWrapper = null, canvas = null, button = null;
 
     var methods = {
@@ -118,7 +119,7 @@
             $('body').append(canvasWrapper);
         },
         createCanvasToolbar: function() {
-            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">ASFDASDF</span><button id="pencil-tool-button-clear">CLEAR</button><button id="pencil-tool-button-close">CLOSE</button>');
+            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">' + settings.toolbarTitle + '</span><button id="pencil-tool-button-clear">CLEAR</button><button id="pencil-tool-button-close">CLOSE</button>');
             $('#pencil-tool-canvas-wrapper').prepend(toolbar);
         },
         hidePencilTool: function() {

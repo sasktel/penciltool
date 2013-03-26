@@ -85,35 +85,19 @@
             canvas = $('<canvas id="pencil-tool-canvas"></canvas>');
             canvas.attr('width', settings.canvasWidth);
             canvas.attr('height', settings.canvasHeight);
-            canvas.css('background-color', '#FFF');
-            canvas.css('z-index', 9999);
             // add canvas event listeners
             $.fn.pencilTool('addCanvasListeners');
         },
         createCanvasWrapper: function () {
             canvasWrapper = $('<div id="pencil-tool-blackout">');
-            canvasWrapper.css('display', 'none');
-            canvasWrapper.css('position', 'absolute');
-            canvasWrapper.css('top', '0');
-            canvasWrapper.css('left', '0');
-            canvasWrapper.css('bottom', '0');
-            canvasWrapper.css('right', '0');
-            canvasWrapper.css('z-index', 9997);
-            canvasWrapper.css('background-color', '#333');
             var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
-            innerContainer.css('border', '1px solid #000');
-            innerContainer.css('position', 'fixed');
             var number = settings.canvasHeight.replace('px', '');
             var halfHeight = Math.round(parseInt(number) / 2);
             number = settings.canvasWidth.replace('px', '');
             var halfWidth = Math.round(parseInt(number) / 2);
             innerContainer.css('margin', '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px');
-            innerContainer.css('left', '50%');
-            innerContainer.css('top', '50%');
             innerContainer.css('width', settings.canvasWidth);
             innerContainer.css('min-height', settings.canvasHeight);
-            innerContainer.css('background-color', '#FFF');
-            innerContainer.css('z-index', 9998);
             innerContainer.append(canvas);
             canvasWrapper.append(innerContainer);
             $('body').append(canvasWrapper);

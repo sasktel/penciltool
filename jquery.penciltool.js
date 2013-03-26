@@ -3,12 +3,18 @@
  *
  * See AUTHORS file for contributors
  * See LICENSE for license
+ *
+ * For examples, notes and new versions check github
+ * https://github.com/sasktel/penciltool
+ *
  */
 (function ($) {
 
     var settings = $.extend({
         'lineWidth': 4,
-        'strokeStyle': '#F00'
+        'strokeStyle': '#F00',
+        'canvasWidth': '700px',
+        'canvasHeight': '300px'
     }), started = false, canvas = null, button = null;
 
     var methods = {
@@ -23,7 +29,9 @@
             }
             // initialize canvas
             if (canvas === null) {
-                canvas = $('<canvas id="pencil-tool-canvas" width="300" height="300" style="display: none; position: absolute; top: 40%; left: 40%; border: 1px solid;"></canvas>');
+                canvas = $('<canvas id="pencil-tool-canvas" style="display: none; position: absolute; top: 40%; left: 40%; border: 1px solid;"></canvas>');
+                canvas.attr('width', settings.canvasWidth);
+                canvas.attr('height', settings.canvasHeight);
                 canvasContext = canvas[0].getContext('2d');
                 canvasContext.lineWidth = settings.lineWidth;
                 canvasContext.strokeStyle = settings.strokeStyle;

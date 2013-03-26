@@ -57,7 +57,6 @@
                 });
                 $('#pencil-tool-button-close').click(function (event) {
                     $.fn.pencilTool('saveCanvasToThumbnail');
-                    $.fn.pencilTool('resetCanvas');
                     $.fn.pencilTool('hidePencilTool');
                 });
                 // add canvas to body

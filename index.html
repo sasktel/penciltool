@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>penctil tool examples</title>
+</head>
+<body>
+    <h1>Pencil Tool Example</h1>
+    <div id="pencil-tool">Loading...</div>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://raw.github.com/sasktel/penciltool/master/jquery.penciltool.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var pencilOptions = {
+            'toolbarTitle': 'Sign below',
+            'strokeStyle': '#000'
+        };
+        $('#pencil-tool').pencilTool(pencilOptions);
+    });
+    </script>
+</body>
+</html>

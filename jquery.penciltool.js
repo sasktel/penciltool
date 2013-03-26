@@ -40,20 +40,14 @@
                 $.fn.pencilTool('initializeCanvasContext');
                 // click handlers
                 $('#pencil-tool-button-clear').click(function (event) {
-                    $.fn.pencilTool('destroyCanvas');
-                    canvas = null
-                    $.fn.pencilTool('createCanvasElement');
-                    $.fn.pencilTool('initializeCanvasContext');
-                    canvasWrapper.append(canvas);
-                    $.fn.pencilTool('addCanvasListeners');
+                    $.fn.pencilTool('resetCanvas');
                 });
                 $('#pencil-tool-button-close').click(function (event) {
+                    $.fn.pencilTool('resetCanvas');
                     $.fn.pencilTool('hidePencilTool');
                 });
                 // add canvas to body
                 $('body').append(canvasWrapper);
-                // add canvas event listeners
-                $.fn.pencilTool('addCanvasListeners');
 
                 initialized = true;
             }
@@ -69,9 +63,6 @@
             canvasContext.lineWidth = settings.lineWidth;
             canvasContext.strokeStyle = settings.strokeStyle;
         },
-        destroyCanvas: function () {
-            $('#pencil-tool-canvas').remove();
-        },
         addCanvasListeners: function () {
             canvas.bind('mousemove', function (event) { $.fn.pencilTool('canvasEvent', event); });
             canvas.bind('mousedown', function (event) { $.fn.pencilTool('canvasEvent', event); });
@@ -80,6 +71,14 @@
             canvas.bind('touchstart', function (event) { $.fn.pencilTool('canvasEvent', event); });
             canvas.bind('touchend', function (event) { $.fn.pencilTool('canvasEvent', event); });
         },
+        resetCanvas: function () {
+            $('#pencil-tool-canvas').remove();
+            canvas = null
+            $.fn.pencilTool('createCanvasElement');
+            $.fn.pencilTool('initializeCanvasContext');
+            $('#pencil-tool-canvas-wrapper').append(canvas);
+            $.fn.pencilTool('addCanvasListeners');
+        },
         createCanvasElement: function() {
             // create canvas element
             canvas = $('<canvas id="pencil-tool-canvas"></canvas>');
@@ -87,6 +86,8 @@
             canvas.attr('height', settings.canvasHeight);
             canvas.css('background-color', '#FFF');
             canvas.css('z-index', 9999);
+            // add canvas event listeners
+            $.fn.pencilTool('addCanvasListeners');
         },
         createCanvasWrapper: function () {
             canvasWrapper = $('<div id="pencil-tool-blackout">');
@@ -99,14 +100,21 @@
             canvasWrapper.css('z-index', 9997);
             canvasWrapper.css('background-color', '#333');
             var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
-            //innerContainer.css('position', 'absolute');
             innerContainer.css('border', '1px solid #000');
-            //innerContainer.css('left', '200px');
-            //innerContainer.css('top', '200px');
+            innerContainer.css('position', 'fixed');
+            var number = settings.canvasHeight.replace('px', '');
+            var halfHeight = Math.round(parseInt(number) / 2);
+            number = settings.canvasWidth.replace('px', '');
+            var halfWidth = Math.round(parseInt(number) / 2);
+            innerContainer.css('margin', '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px');
+            innerContainer.css('left', '50%');
+            innerContainer.css('top', '50%');
+            innerContainer.css('width', settings.canvasWidth);
+            innerContainer.css('min-height', settings.canvasHeight);
             innerContainer.css('background-color', '#FFF');
             innerContainer.css('z-index', 9998);
+            innerContainer.append(canvas);
             canvasWrapper.append(innerContainer);
-            canvasWrapper.append(canvas);
             $('body').append(canvasWrapper);
         },
         createCanvasToolbar: function() {
@@ -118,19 +126,6 @@
         },
         showPencilTool: function () {
             console.log('Opening canvas');
-            // TODO - Properly position canvas element
-            /*
-            var div = $('<div id="pencil-tool-blackout">');
-            div.css('position', 'absolute');
-            div.css('top', '0');
-            div.css('left', '0');
-            div.css('bottom', '0');
-            div.css('right', '0');
-            div.css('z-index', 9997);
-            div.css('background-color', '#333');
-            $('body').append(div);
-            */
-            
             canvasWrapper.toggle();
         },
         canvasEvent: function(event) {

@@ -16,10 +16,9 @@
 #pencil-tool-button {
     padding: 5px;
     margin: 5px;
-    /*
-    background-color: #F00;
-    color: #FFF;
-    */
+}
+#pencil-tool-thumbnail {
+    vertical-align: middle;
 }
 #pencil-tool-blackout {
     display: none;

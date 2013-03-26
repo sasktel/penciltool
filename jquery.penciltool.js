@@ -18,7 +18,7 @@
         'canvasHeight': '300px',
         'toolbarTitle': '',
         'debug': false
-    }), started = false, initialized = false, canvasWrapper = null, canvas = null, button = null;
+    }), started = false, initialized = false, thumbnail = null, canvasWrapper = null, canvas = null, button = null;
 
     var methods = {
         log: function (message) {
@@ -41,6 +41,11 @@
                 // add button to div
                 this.html(button);
             }
+            if (thumbnail === null) {
+                thumbnail = $('<img id="pencil-tool-thumbnail" />');
+                thumbnail.css('height', button.css('height'));
+                this.append(thumbnail);
+            }
             if (initialized === false) {
                 // initialize all elements
                 $.fn.pencilTool('initializeElements');
@@ -51,6 +56,7 @@
                     $.fn.pencilTool('resetCanvas');
                 });
                 $('#pencil-tool-button-close').click(function (event) {
+                    $.fn.pencilTool('saveCanvasToThumbnail');
                     $.fn.pencilTool('resetCanvas');
                     $.fn.pencilTool('hidePencilTool');
                 });
@@ -78,6 +84,11 @@
             canvas.bind('touchmove', function (event) { $.fn.pencilTool('canvasEvent', event); });
             canvas.bind('touchstart', function (event) { $.fn.pencilTool('canvasEvent', event); });
             canvas.bind('touchend', function (event) { $.fn.pencilTool('canvasEvent', event); });
+        },
+        saveCanvasToThumbnail: function () {
+            $.fn.pencilTool('log', 'Saving image to thumbnail');
+            var png = canvas[0].toDataURL();
+            $('#pencil-tool-thumbnail').attr('src', png);
         },
         resetCanvas: function () {
             $('#pencil-tool-canvas').remove();

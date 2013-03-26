@@ -104,7 +104,7 @@
             $('body').append(canvasWrapper);
         },
         createCanvasToolbar: function() {
-            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">' + settings.toolbarTitle + '</span><span style="float: right"><button id="pencil-tool-button-clear">CLEAR</button><button id="pencil-tool-button-close">CLOSE</button></span>');
+            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">' + settings.toolbarTitle + '</span><span id="pencil-tool-control-wrapper"><button id="pencil-tool-button-clear">CLEAR</button><button id="pencil-tool-button-close">CLOSE</button></span>');
             $('#pencil-tool-canvas-wrapper').prepend(toolbar);
         },
         hidePencilTool: function() {

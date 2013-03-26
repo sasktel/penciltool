@@ -31,3 +31,6 @@
     background-color: #FFF;
     z-index: 9998;
 }
+#pencil-tool-control-wrapper {
+    float: right
+}

@@ -12,6 +12,15 @@
     background-color: #FFF;
     z-index: 9999;
 }
+#pencil-tool-toolbar button,
+#pencil-tool-button {
+    padding: 5px;
+    margin: 5px;
+    /*
+    background-color: #F00;
+    color: #FFF;
+    */
+}
 #pencil-tool-blackout {
     display: none;
     position: absolute;
@@ -24,13 +33,20 @@
     background-color: rgba(51, 51, 51, 0.7);
 }
 #pencil-tool-canvas-wrapper {
-    border: 1px solid #000;
     position: fixed;
     left: 50%;
     top: 50%;
     background-color: #FFF;
     z-index: 9998;
 }
+#pencil-tool-toolbar {
+    background-color: #2260AD;
+    padding: 5px;
+    color: #FFF;
+    line-height: 44px;
+}
 #pencil-tool-control-wrapper {
-    float: right
+    display: inline-block;
+    position: absolute;
+    right: 0;
 }

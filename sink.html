@@ -5,9 +5,6 @@
 </head>
 <body>
     
-    <!--><canvas id="drawing" width="700" height="300" style="border: 1px solid">
-    </canvas>-->
-    
     <div id="pencil-tool">Loading...</div>
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -25,16 +22,111 @@
             'strokeStyle': '#F00'
         });
         
+        var started = false;
+        var canvas = null;
+        var button = null;
+        
         var methods = {
             init: function (options) {
-                var tool = this;
+                // initialize settings, extend objects
                 if (options !== undefined) {
                     settings = $.extend(settings, options);
                 }
-                console.log(tool);
+                // initialize button
+                if (button === null) {
+                    button = $('<button id="pencil-tool-button">Pencil Tool</button>');
+                }
+                // initialize canvas
+                if (canvas === null) {
+                    canvas = $('<canvas id="pencil-tool-canvas" width="300" height="300" style="display: none; position: absolute; top: 40%; left: 40%; border: 1px solid;"></canvas>');
+                    canvasContext = canvas[0].getContext('2d');
+                    canvasContext.lineWidth = settings.lineWidth;
+                    canvasContext.strokeStyle = settings.strokeStyle;
+                }
+                // create click handler
+                button.click(function (event) {
+                    $.fn.pencilTool('showCanvas');
+                });
+                // add button to div
+                this.html(button);
+                // add canvas to body
+                $('body').append(canvas);
+                // add canvas event listeners
+                canvas.bind('mousemove', function (event) { $.fn.pencilTool('canvasEvent', event); });
+                canvas.bind('mousedown', function (event) { $.fn.pencilTool('canvasEvent', event); });
+                canvas.bind('mouseup', function (event) { $.fn.pencilTool('canvasEvent', event); });
+                canvas.bind('touchmove', function (event) { $.fn.pencilTool('canvasEvent', event); });
+                canvas.bind('touchstart', function (event) { $.fn.pencilTool('canvasEvent', event); });
+                canvas.bind('touchend', function (event) { $.fn.pencilTool('canvasEvent', event); });
+            },
+            showCanvas: function () {
+                console.log('Opening canvas');
+                // TODO - Properly position canvas element
+                canvas.toggle();
             },
             canvasEvent: function(event) {
-                console.log('event!!');
+                //console.log('Received event');
+                console.log(event);
+                
+                var targetElement = event.target;
+                var x = y = 0;
+            
+                while (targetElement && !isNaN(targetElement.offsetLeft) && !isNaN(targetElement.offsetTop)) {
+                    x += targetElement.offsetLeft - targetElement.scrollLeft;
+                    y += targetElement.offsetTop - targetElement.scrollTop;
+                    targetElement = targetElement.offsetParent;
+                }
+            
+                if (event.originalEvent.clientX && event.originalEvent.clientY) {
+                    console.log('chose client');
+                    event._x = event.clientX - x;
+                    event._y = event.clientY - y;
+                }
+                else {
+                    console.log('chose page');
+                    event._x = event.originalEvent.pageX - x;
+                    event._y = event.originalEvent.pageY - y;
+                }
+                console.log('x: ' + event._x + ' y: ' + event._y);
+                $.fn.pencilTool(event.type, event);
+            },
+            touchstart: function (event) {
+                console.log('touchstart');
+                // stop elastic scrolling
+                $('body').bind('touchmove', function (event) { event.preventDefault(); });
+                // propagate event
+                $.fn.pencilTool('mousedown', event);
+            },
+            mousedown: function (event) {
+                console.log('mousedown');
+                // start drawing
+                canvasContext.beginPath();
+                canvasContext.moveTo(event._x, event._y);
+                started = true;
+            },
+            touchend: function (event) {
+                console.log('touchend');
+                // re-allow elastic scrolling
+                $('body').unbind('touchmove');
+                // propagate event
+                $.fn.pencilTool('mouseup', event);
+            },
+            mouseup: function (event) {
+                if (started) {
+                    console.log('mouseup');
+                    started = false;
+                }
+            },
+            touchmove: function (event) {
+                console.log('touchmove');
+                $.fn.pencilTool('mousemove', event);
+            },
+            mousemove: function (event) {
+                if (started) {
+                    console.log('mousemove');
+                    canvasContext.lineTo(event._x, event._y);
+                    canvasContext.stroke();
+                }
             }
         };
         
@@ -48,117 +140,6 @@
             }
         };
     })(jQuery);
-    
-    var pencilOptions = {
-        'lineWidth': 1,
-        'strokeStyle': '#000'
-    }
-    //var tool = new PencilTool('drawing', pencilOptions);
-    
-    function PencilTool(canvasID, passedOptions) {
-        var tool = this;
-        this.options = {
-            'lineWidth': 4,
-            'strokeStyle': '#F00'
-        };
-        
-        if (passedOptions !== undefined) {
-            for (var key in passedOptions) {
-                this.options[key] = passedOptions[key];
-            }
-        }
-        
-        this.started = false;
-        this.body = document.body;
-        this.canvas = document.getElementById(canvasID);
-        this.canvasContext = this.canvas.getContext('2d');
-        this.canvasContext.lineWidth = this.options.lineWidth;
-        this.canvasContext.fillStyle = this.options.fillStyle;
-        this.canvasContext.strokeStyle = this.options.strokeStyle;
-        
-        this.getImageData = function () {
-            return tool.canvas.toDataURL();
-        }
-        
-        this.bodyTouchListener = function (event) {
-            event.preventDefault();
-        }
-        
-        this.touchstart = function (event) {
-            tool.mousedown(event);
-        }
-        this.mousedown = function (event) {
-            //console.log('mouse down');
-            
-            // stop elastic scrolling
-            tool.body.addEventListener('touchmove', tool.bodyTouchListener, false);
-            
-            // start drawing
-            tool.canvasContext.beginPath();
-            tool.canvasContext.moveTo(event._x, event._y);
-            tool.started = true;
-        };
-        
-        this.touchmove = function (event) {
-            console.log(event._x + ' -- ' + event._y);
-            if (event._x > 0 && event._y > 0) {
-                tool.mousemove(event);
-            }
-        }
-        this.mousemove = function (event) {
-            //console.log('mouse move');
-            if (tool.started) {
-                tool.canvasContext.lineTo(event._x, event._y);
-                tool.canvasContext.stroke();
-            }
-        };
-        
-        this.touchend = function (event) {
-            tool.mouseup(event);
-        }
-        this.mouseup = function (event) {
-            //console.log('mouse up');
-            if (tool.started) {
-                tool.body.removeEventListener('touchmove', tool.bodyTouchListener, false);
-                
-                tool.started = false;
-            }
-        };
-        
-        this.canvasEvent = function (event) {
-            console.log(event);
-            
-            var targetElement = event.target;
-            var x = y = 0;
-            
-            while (targetElement && !isNaN(targetElement.offsetLeft) && !isNaN(targetElement.offsetTop)) {
-                x += targetElement.offsetLeft - targetElement.scrollLeft;
-                y += targetElement.offsetTop - targetElement.scrollTop;
-                targetElement = targetElement.offsetParent;
-            }
-            
-            if (event.clientX && event.clientY) {
-                event._x = event.clientX - x;
-                event._y = event.clientY - y;
-            }
-            else {
-                event._x = event.pageX - x;
-                event._y = event.pageY - y;
-            }
-            
-            var eventCall = tool[event.type];
-            if (eventCall) {
-                eventCall(event);
-            }
-        };
-        
-        this.canvas.addEventListener('mousemove', this.canvasEvent, false);
-        this.canvas.addEventListener('mousedown', this.canvasEvent, false);
-        this.canvas.addEventListener('mouseup', this.canvasEvent, false);
-        this.canvas.addEventListener('touchmove', this.canvasEvent, false);
-        this.canvas.addEventListener('touchstart', this.canvasEvent, false);
-        this.canvas.addEventListener('touchend', this.canvasEvent, false);
-    }
     </script>
 </body>
 </html>

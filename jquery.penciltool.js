@@ -16,10 +16,16 @@
         'strokeStyle': '#000',
         'canvasWidth': '700px',
         'canvasHeight': '300px',
-        'toolbarTitle': ''
+        'toolbarTitle': '',
+        'debug': false
     }), started = false, initialized = false, canvasWrapper = null, canvas = null, button = null;
 
     var methods = {
+        log: function (message) {
+            if (settings.debug == true) {
+                console.log(message);
+            }
+        },
         init: function (options) {
             // initialize settings, extend objects
             if (options !== undefined) {
@@ -111,12 +117,12 @@
             canvasWrapper.toggle();
         },
         showPencilTool: function () {
-            console.log('Opening canvas');
+            $.fn.pencilTool('log', 'Opening canvas');
             canvasWrapper.toggle();
         },
         canvasEvent: function(event) {
-            //console.log('Received event');
-            console.log(event);
+            $.fn.pencilTool('log', 'Received event');
+            $.fn.pencilTool('log', event);
 
             var targetElement = event.target;
             var x = y = 0;
@@ -128,34 +134,34 @@
             }
 
             if (event.originalEvent.clientX && event.originalEvent.clientY) {
-                console.log('chose client');
+                $.fn.pencilTool('log', 'Chose client');
                 event._x = event.clientX - x;
                 event._y = event.clientY - y;
             }
             else {
-                console.log('chose page');
+                $.fn.pencilTool('log', 'Chose page');
                 event._x = event.originalEvent.pageX - x;
                 event._y = event.originalEvent.pageY - y;
             }
-            console.log('x: ' + event._x + ' y: ' + event._y);
+            $.fn.pencilTool('log', 'x: ' + event._x + ' y: ' + event._y);
             $.fn.pencilTool(event.type, event);
         },
         touchstart: function (event) {
-            console.log('touchstart');
+            $.fn.pencilTool('log', 'touchstart');
             // stop elastic scrolling
             $('body').bind('touchmove', function (event) { event.preventDefault(); });
             // propagate event
             $.fn.pencilTool('mousedown', event);
         },
         mousedown: function (event) {
-            console.log('mousedown');
+            $.fn.pencilTool('log', 'mousedown');
             // start drawing
             canvasContext.beginPath();
             canvasContext.moveTo(event._x, event._y);
             started = true;
         },
         touchend: function (event) {
-            console.log('touchend');
+            $.fn.pencilTool('log', 'touchend');
             // re-allow elastic scrolling
             $('body').unbind('touchmove');
             // propagate event
@@ -163,17 +169,17 @@
         },
         mouseup: function (event) {
             if (started) {
-                console.log('mouseup');
+                $.fn.pencilTool('log', 'mouseup');
                 started = false;
             }
         },
         touchmove: function (event) {
-            console.log('touchmove');
+            $.fn.pencilTool('log', 'touchmove');
             $.fn.pencilTool('mousemove', event);
         },
         mousemove: function (event) {
             if (started) {
-                console.log('mousemove');
+                $.fn.pencilTool('log', 'mousemove');
                 canvasContext.lineTo(event._x, event._y);
                 canvasContext.stroke();
             }

@@ -12,6 +12,8 @@
 
     var settings = $.extend({
         'pencilButtonText': 'Tap to sign',
+        'closeButtonText': 'Close',
+        'clearButtonText': 'Clear',
         'lineWidth': 2,
         'strokeStyle': '#000',
         'canvasWidth': '700px',
@@ -100,27 +102,31 @@
         createCanvasElement: function() {
             // create canvas element
             canvas = $('<canvas id="pencil-tool-canvas"></canvas>');
-            canvas.attr('width', settings.canvasWidth);
-            canvas.attr('height', settings.canvasHeight);
+            canvas.attr({
+                'width': settings.canvasWidth,
+                'height': settings.canvasHeight
+            });
             // add canvas event listeners
             $.fn.pencilTool('addCanvasListeners');
         },
         createCanvasWrapper: function () {
             canvasWrapper = $('<div id="pencil-tool-blackout">');
-            var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
             var number = settings.canvasHeight.replace('px', '');
             var halfHeight = Math.round(parseInt(number) / 2);
             number = settings.canvasWidth.replace('px', '');
             var halfWidth = Math.round(parseInt(number) / 2);
-            innerContainer.css('margin', '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px');
-            innerContainer.css('width', settings.canvasWidth);
-            innerContainer.css('min-height', settings.canvasHeight);
+            var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
+            innerContainer.css({
+                'margin': '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px',
+                'width': settings.canvasWidth,
+                'min-height': settings.canvasHeight
+            });
             innerContainer.append(canvas);
             canvasWrapper.append(innerContainer);
             $('body').append(canvasWrapper);
         },
         createCanvasToolbar: function() {
-            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">' + settings.toolbarTitle + '</span><div id="pencil-tool-control-wrapper"><button id="pencil-tool-button-clear">Clear</button><button id="pencil-tool-button-close">Close</button></div>');
+            var toolbar = $('<div id="pencil-tool-toolbar"><span id="pencil-toolbar-help-message">' + settings.toolbarTitle + '</span><div id="pencil-tool-control-wrapper"><button id="pencil-tool-button-clear">' + settings.clearButtonText + '</button><button id="pencil-tool-button-close">' + settings.closeButtonText + '</button></div>');
             $('#pencil-tool-canvas-wrapper').prepend(toolbar);
         },
         hidePencilTool: function() {

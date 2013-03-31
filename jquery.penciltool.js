@@ -39,6 +39,7 @@
                 // create click handler
                 button.click(function (event) {
                     $.fn.pencilTool('showPencilTool');
+                    event.preventDefault();
                 });
                 // add button to div
                 this.html(button);
@@ -56,10 +57,12 @@
                 // click handlers
                 $('#pencil-tool-button-clear').click(function (event) {
                     $.fn.pencilTool('resetCanvas');
+                    event.preventDefault();
                 });
                 $('#pencil-tool-button-close').click(function (event) {
                     $.fn.pencilTool('saveCanvasToThumbnail');
                     $.fn.pencilTool('hidePencilTool');
+                    event.preventDefault();
                 });
                 // add canvas to body
                 $('body').append(canvasWrapper);

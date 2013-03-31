@@ -89,9 +89,21 @@
             canvas.bind('touchstart', function (event) { $.fn.pencilTool('canvasEvent', event); });
             canvas.bind('touchend', function (event) { $.fn.pencilTool('canvasEvent', event); });
         },
+        getCanvasImageAsTypeAndQuality: function (type, quality) {
+            if (type === undefined) {
+                type = 'image/png';
+            }
+            if (quality === undefined) {
+                quality = 1;
+            }
+            if (type !== 'image/png') {
+                return canvas[0].toDataURL(type, quality);
+            }
+            return canvas[0].toDataURL();
+        },
         saveCanvasToThumbnail: function () {
             $.fn.pencilTool('log', 'Saving image to thumbnail');
-            var png = canvas[0].toDataURL();
+            var png = $.fn.pencilTool('getCanvasImageAsTypeAndQuality');
             $('#pencil-tool-thumbnail').attr('src', png);
         },
         resetCanvas: function () {

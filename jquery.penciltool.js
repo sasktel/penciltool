@@ -29,6 +29,12 @@
             }
         },
         init: function (options) {
+            // find preload image data
+            var preload = $('#pencil-tool-preload'), image = null;
+            if (preload.length > 0) {
+                image = preload[0];
+                $.fn.pencilTool('log', image);
+            }
             // initialize settings, extend objects
             if (options !== undefined) {
                 settings = $.extend(settings, options);
@@ -67,6 +73,11 @@
                 // add canvas to body
                 $('body').append(canvasWrapper);
 
+                // set preload data
+                if (image !== null) {
+                    $.fn.pencilTool('setCanvasImage', image);
+                }
+
                 initialized = true;
             }
         },
@@ -100,6 +111,11 @@
                 return canvas[0].toDataURL(type, quality);
             }
             return canvas[0].toDataURL();
+        },
+        setCanvasImage: function (image) {
+            $.fn.pencilTool('log', image);
+            console.log(image);
+            canvasContext.drawImage(image, 0, 0);
         },
         saveCanvasToThumbnail: function () {
             $.fn.pencilTool('log', 'Saving image to thumbnail');

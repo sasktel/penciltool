@@ -28,6 +28,9 @@
                 console.log(message);
             }
         },
+        resetInit: function () {
+            initialized = false;
+        },
         init: function (options) {
             // find preload image data
             var preload = $('#pencil-tool-preload'), image = null;
@@ -39,23 +42,21 @@
             if (options !== undefined) {
                 settings = $.extend(settings, options);
             }
-            if (button === null) {
-                // create button
+            // initialize
+            if (initialized === false) {
+                // initialize tap-to-sign button
                 button = $('<button id="pencil-tool-button">' + settings.pencilButtonText + '</button>');
-                // create click handler
                 button.click(function (event) {
                     $.fn.pencilTool('showPencilTool');
                     event.preventDefault();
                 });
-                // add button to div
                 this.html(button);
-            }
-            if (thumbnail === null) {
+                
+                // initialize thumbnail holder
                 thumbnail = $('<img id="pencil-tool-thumbnail" />');
                 thumbnail.css('height', button.css('height'));
                 this.append(thumbnail);
-            }
-            if (initialized === false) {
+                
                 // initialize all elements
                 $.fn.pencilTool('initializeElements');
                 // initialize context
@@ -76,6 +77,7 @@
                 // set preload data
                 if (image !== null) {
                     $.fn.pencilTool('setCanvasImage', image);
+                    $.fn.pencilTool('saveCanvasToThumbnail');
                 }
 
                 initialized = true;

@@ -8,6 +8,14 @@
  * https://github.com/sasktel/penciltool
  *
  */
+
+.pt-editing {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 #pencil-tool-canvas {
     background-color: #FFF;
     z-index: 9999;

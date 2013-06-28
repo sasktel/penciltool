@@ -145,10 +145,12 @@
             $('#pencil-tool-canvas-wrapper').prepend(toolbar);
         },
         hidePencilTool: function() {
+            $('html').removeClass('pt-editing');
             canvasWrapper.toggle();
         },
         showPencilTool: function () {
             $.fn.pencilTool('log', 'Opening canvas');
+            $('html').addClass('pt-editing');
             canvasWrapper.toggle();
         },
         canvasEvent: function(event) {

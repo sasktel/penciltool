@@ -26,6 +26,7 @@ Apply penciltool to any div and it will take care of the rest.
 Settings
 ====
 The following settings can be changed
+
     {
         'pencilButtonText': 'Tap to sign', // button text to open drawing canvas
         'closeButtonText': 'Close', // close button text

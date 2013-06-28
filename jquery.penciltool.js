@@ -25,7 +25,9 @@
     var methods = {
         log: function (message) {
             if (settings.debug == true) {
-                console.log(message);
+                if (typeof console !== 'undefined' || typeof console.log !== 'undefined') {
+                    console.log(message);
+                }
             }
         },
         init: function (options) {

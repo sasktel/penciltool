@@ -24,7 +24,7 @@
 
     var methods = {
         log: function (message) {
-            if (settings.debug == true) {
+            if (settings.debug === true) {
                 if (typeof console !== 'undefined' || typeof console.log !== 'undefined') {
                     console.log(message);
                 }
@@ -39,8 +39,7 @@
         },
         initializeElements: function(container) {
             if (initialized === false) {
-                $.fn.pencilTool('initializeFormButton', container);
-                $.fn.pencilTool('initializeThumbnailHolder', container);
+                $.fn.pencilTool('initializeContainerContents', container);
                 $.fn.pencilTool('createCanvasElement');
                 $.fn.pencilTool('createCanvasWrapper');
                 $.fn.pencilTool('createCanvasToolbar');
@@ -50,25 +49,20 @@
                 initialized = true;
             }
         },
-        initializeFormButton: function(container) {
-            if (button === null) {
-                // create button
-                button = $('<button id="pencil-tool-button">' + settings.pencilButtonText + '</button>');
-                // create click handler
-                button.click(function (event) {
-                    $.fn.pencilTool('showPencilTool');
-                    event.preventDefault();
-                });
-                // add button to div
-                container.html(button);
-            }
-        },
-        initializeThumbnailHolder: function(container) {
-            if (thumbnail === null) {
-                thumbnail = $('<img id="pencil-tool-thumbnail" />');
-                thumbnail.css('height', button.css('height'));
-                container.append(thumbnail);
-            }
+        initializeContainerContents: function (container) {
+            // create button
+            button = $('<button id="pencil-tool-button">' + settings.pencilButtonText + '</button>');
+            // create click handler
+            button.click(function (event) {
+                $.fn.pencilTool('showPencilTool');
+                event.preventDefault();
+            });
+            // add button to div
+            container.html(button);
+
+            thumbnail = $('<img id="pencil-tool-thumbnail" />');
+            thumbnail.css('height', button.css('height'));
+            container.append(thumbnail);
         },
         initializeCanvasContext: function () {
             // set canvas context options

@@ -35,6 +35,22 @@
             if (options !== undefined) {
                 settings = $.extend(settings, options);
             }
+            $.fn.pencilTool('initializeElements', this);
+        },
+        initializeElements: function(container) {
+            if (initialized === false) {
+                $.fn.pencilTool('initializeFormButton', container);
+                $.fn.pencilTool('initializeThumbnailHolder', container);
+                $.fn.pencilTool('createCanvasElement');
+                $.fn.pencilTool('createCanvasWrapper');
+                $.fn.pencilTool('createCanvasToolbar');
+                $.fn.pencilTool('initializeCanvasContext');
+                $.fn.pencilTool('initializeClickHandlers');
+                $('body').append(canvasWrapper);
+                initialized = true;
+            }
+        },
+        initializeFormButton: function(container) {
             if (button === null) {
                 // create button
                 button = $('<button id="pencil-tool-button">' + settings.pencilButtonText + '</button>');
@@ -44,44 +60,33 @@
                     event.preventDefault();
                 });
                 // add button to div
-                this.html(button);
+                container.html(button);
             }
+        },
+        initializeThumbnailHolder: function(container) {
             if (thumbnail === null) {
                 thumbnail = $('<img id="pencil-tool-thumbnail" />');
                 thumbnail.css('height', button.css('height'));
-                this.append(thumbnail);
+                container.append(thumbnail);
             }
-            if (initialized === false) {
-                // initialize all elements
-                $.fn.pencilTool('initializeElements');
-                // initialize context
-                $.fn.pencilTool('initializeCanvasContext');
-                // click handlers
-                $('#pencil-tool-button-clear').click(function (event) {
-                    $.fn.pencilTool('resetCanvas');
-                    event.preventDefault();
-                });
-                $('#pencil-tool-button-close').click(function (event) {
-                    $.fn.pencilTool('saveCanvasToThumbnail');
-                    $.fn.pencilTool('hidePencilTool');
-                    event.preventDefault();
-                });
-                // add canvas to body
-                $('body').append(canvasWrapper);
-
-                initialized = true;
-            }
-        },
-        initializeElements: function() {
-            $.fn.pencilTool('createCanvasElement');
-            $.fn.pencilTool('createCanvasWrapper');
-            $.fn.pencilTool('createCanvasToolbar');
         },
         initializeCanvasContext: function () {
             // set canvas context options
             canvasContext = canvas[0].getContext('2d');
             canvasContext.lineWidth = settings.lineWidth;
             canvasContext.strokeStyle = settings.strokeStyle;
+        },
+        initializeClickHandlers: function () {
+            // click handlers
+            $('#pencil-tool-button-clear').click(function (event) {
+                $.fn.pencilTool('resetCanvas');
+                event.preventDefault();
+            });
+            $('#pencil-tool-button-close').click(function (event) {
+                $.fn.pencilTool('saveCanvasToThumbnail');
+                $.fn.pencilTool('hidePencilTool');
+                event.preventDefault();
+            });
         },
         addCanvasListeners: function () {
             canvas.bind('mousemove', function (event) { $.fn.pencilTool('canvasEvent', event); });

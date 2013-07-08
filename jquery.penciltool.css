@@ -20,12 +20,12 @@
     background-color: #FFF;
     z-index: 9999;
 }
-#pencil-tool-toolbar button,
-#pencil-tool-button {
+.pencil-tool-toolbar button,
+.pencil-tool-button {
     padding: 5px;
     margin: 5px;
 }
-#pencil-tool-thumbnail {
+.pencil-tool-thumbnail {
     vertical-align: middle;
 }
 #pencil-tool-blackout {

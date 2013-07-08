@@ -64,19 +64,26 @@
             this.$container.append(thumbnail);
         },
         _initializeDisplayWrapper: function () {
-            var canvasWrapper = $('<div id="pencil-tool-blackout">');
-            var number = this.settings.canvasHeight.replace('px', '');
-            var halfHeight = Math.round(parseInt(number) / 2);
-            number = this.settings.canvasWidth.replace('px', '');
-            var halfWidth = Math.round(parseInt(number) / 2);
-            var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
-            innerContainer.css({
-                'margin': '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px',
-                'width': this.settings.canvasWidth,
-                'min-height': this.settings.canvasHeight
-            });
-            canvasWrapper.append(innerContainer);
-            $('body').append(canvasWrapper);
+            this.log('initializeDisplayWrapper');
+            var blackOutExists = ($('#pencil-tool-blackout').length == 0) ? false : true;
+            var test = $('#pencil-tool-blackout');
+            this.log('Blackout: ' + test);
+            this.log(test);
+            if (blackOutExists === false) {
+                var canvasWrapper = $('<div id="pencil-tool-blackout">');
+                var number = this.settings.canvasHeight.replace('px', '');
+                var halfHeight = Math.round(parseInt(number) / 2);
+                number = this.settings.canvasWidth.replace('px', '');
+                var halfWidth = Math.round(parseInt(number) / 2);
+                var innerContainer = $('<div id="pencil-tool-canvas-wrapper">');
+                innerContainer.css({
+                    'margin': '-' + halfHeight + 'px 0px 0px -' + halfWidth + 'px',
+                    'width': this.settings.canvasWidth,
+                    'min-height': this.settings.canvasHeight
+                });
+                canvasWrapper.append(innerContainer);
+                $('body').append(canvasWrapper);
+            }
         },
         _initializeToolbar: function () {
             this.$toolbar = $('<div class="pencil-tool-toolbar"><span class="pencil-toolbar-help-message">' + this.settings.toolbarTitle + '</span><div class="pencil-tool-control-wrapper"><button class="pencil-tool-button-clear">' + this.settings.clearButtonText + '</button><button class="pencil-tool-button-close">' + this.settings.closeButtonText + '</button></div>');

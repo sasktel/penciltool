@@ -64,11 +64,7 @@
             this.$container.append(thumbnail);
         },
         _initializeDisplayWrapper: function () {
-            this.log('initializeDisplayWrapper');
             var blackOutExists = ($('#pencil-tool-blackout').length == 0) ? false : true;
-            var test = $('#pencil-tool-blackout');
-            this.log('Blackout: ' + test);
-            this.log(test);
             if (blackOutExists === false) {
                 var canvasWrapper = $('<div id="pencil-tool-blackout">');
                 var number = this.settings.canvasHeight.replace('px', '');

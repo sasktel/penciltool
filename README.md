@@ -22,6 +22,7 @@ Apply penciltool to any div and it will take care of the rest.
     });
     </script>
 
+A `.pt-editing` class is applied to `<html>` when the canvas is shown.
 
 Settings
 ====
@@ -41,13 +42,13 @@ The following settings can be changed
 
 Styling
 =====
-Styling can be customized by applying styling to the following IDs. See the CSS for basic styling.
+See the `jquery.pencitool.css` for basic styling. The following elements can be modified to customize styling.
 
     #pencil-tool-canvas
-    #pencil-tool-toolbar button,
-    #pencil-tool-button
-    #pencil-tool-thumbnail
     #pencil-tool-blackout
     #pencil-tool-canvas-wrapper
-    #pencil-tool-toolbar
-    #pencil-tool-control-wrapper
+    .pencil-tool-toolbar button
+    .pencil-tool-button
+    .pencil-tool-thumbnail
+    .pencil-tool-toolbar
+    .pencil-tool-control-wrapper

@@ -82,7 +82,8 @@
             }
         },
         _initializeToolbar: function () {
-            this.$toolbar = $('<div class="pencil-tool-toolbar"><span class="pencil-toolbar-help-message">' + this.settings.toolbarTitle + '</span><div class="pencil-tool-control-wrapper"><button class="pencil-tool-button-clear">' + this.settings.clearButtonText + '</button><button class="pencil-tool-button-close">' + this.settings.closeButtonText + '</button></div>');
+            var title = (this.settings.toolbarTitle === '') ? '&nbsp;' : this.settings.toolbarTitle;
+            this.$toolbar = $('<div class="pencil-tool-toolbar"><span class="pencil-toolbar-help-message">' + title + '</span><div class="pencil-tool-control-wrapper"><button class="pencil-tool-button-clear">' + this.settings.clearButtonText + '</button><button class="pencil-tool-button-close">' + this.settings.closeButtonText + '</button></div>');
         },
         _setToolbarClickHandlers: function (toolbar) {
             var scope = this;
